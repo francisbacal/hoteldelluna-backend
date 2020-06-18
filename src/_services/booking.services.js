@@ -3,7 +3,7 @@ const RoomType = require('./../models/RoomType');
 const Room = require('./../models/Room');
 const moment = require('moment')
 
-export default {
+module.exports = {
     add,
     getAll,
     getOne,

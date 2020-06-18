@@ -1,7 +1,7 @@
 const Room = require("../models/Room");
 const RoomType = require("../models/RoomType");
 
-export default {
+module.exports = {
     add,
     getAll,
     getOne,
