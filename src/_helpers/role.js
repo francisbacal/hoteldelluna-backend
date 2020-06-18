@@ -1,0 +1,1 @@
+module.exports = {Admin: 'Admin', Manager: 'Manager', Reception: 'Reception', User: 'User'}

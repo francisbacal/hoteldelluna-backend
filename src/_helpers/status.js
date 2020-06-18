@@ -1,0 +1,1 @@
+module.exports = {Available: 'Available', Booked: 'Booked', Maintenance: 'Maintenance'}
