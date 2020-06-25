@@ -22,12 +22,12 @@ const port = process.env.PORT || 5000;
 
 let URI;
 
-// if (process.env.NODE_ENV === 'development') {
-//     URI = 'mongodb://localhost:27017/hoteldelluna';
-// } else {
-    
-// }
-URI = process.env.ATLAS
+if (process.env.NODE_ENV === 'development') {
+    URI = 'mongodb://localhost:27017/hoteldelluna';
+} else {
+    URI = process.env.ATLAS
+}
+// URI = process.env.ATLAS
 mongoose.connect(URI, 
     {
         useNewUrlParser: true,
@@ -37,15 +37,6 @@ mongoose.connect(URI,
     }
 );
 
-// mongoose.connect(process.env.ATLAS, 
-//     {
-//         useNewUrlParser: true, 
-//         useUnifiedTopology: true, 
-//         useCreateIndex: true,
-//         useFindAndModify: false,
-//     }
-
-// );
 
 /* ========================
 | INITITALIZE THE APP 

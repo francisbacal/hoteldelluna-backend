@@ -1,4 +1,5 @@
 const User = require('./../models/User');
+const sendEmail = require('../_helpers/email-sender');
 
 
 module.exports = {pay};
@@ -32,6 +33,8 @@ async function pay(req, res, next) {
         }
 
         let userCreated = await User.create(details).catch(next);
+
+        await sendUserDetails(details)
 
         req.body.customerId = await userCreated._id
 
@@ -74,4 +77,23 @@ async function pay(req, res, next) {
         }
     }
  
+}
+
+async function sendUserDetails(details) {
+    let message;
+
+    message =   `<p>Login Details</p>`+
+                `<p>Email: ${details.email}</p>`+
+                `<p>Password: ${details.password}</p>`
+
+    console.log(message)
+
+    
+    await sendEmail({
+        to: details.email,
+        subject: 'Hotel Del Luna | Your Login Details',
+        html:   `<h3>Thank you for choosing Hotel Del Luna</h3>
+                <h5>We are excited to serve you!</h5>
+                ${message}`
+    })
 }

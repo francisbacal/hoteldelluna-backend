@@ -1,0 +1,10 @@
+{
+    "emailFrom": "no-reply@hotel-del-luna.com",
+    "smptOptions": {
+        "service": "yahoo",
+        "auth": {
+            "user": "vagueseer@yahoo.com",
+            "pass": "epbee005"
+        }
+    }
+}
