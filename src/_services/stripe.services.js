@@ -82,18 +82,14 @@ async function pay(req, res, next) {
 async function sendUserDetails(details) {
     let message;
 
-    message =   `<p>Login Details</p>`+
-                `<p>Email: ${details.email}</p>`+
-                `<p>Password: ${details.password}</p>`
-
-    console.log(message)
-
-    
+    message =   `<h4>Login Details</h4>`+
+                `<p>Email: <strong>${details.email}</strong></p>`+
+                `<p>Password: <strong>${details.password}</strong></p>`
     await sendEmail({
         to: details.email,
         subject: 'Hotel Del Luna | Your Login Details',
-        html:   `<h3>Thank you for choosing Hotel Del Luna</h3>
-                <h5>We are excited to serve you!</h5>
+        html:   `<h1>Thank you for choosing Hotel Del Luna</h1>
+                <h3>We are excited to serve you!</h3>
                 ${message}`
     })
 }

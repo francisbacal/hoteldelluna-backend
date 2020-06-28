@@ -27,7 +27,8 @@ if (process.env.NODE_ENV === 'development') {
 } else {
     URI = process.env.ATLAS
 }
-// URI = process.env.ATLAS
+
+console.log('URI',URI)
 mongoose.connect(URI, 
     {
         useNewUrlParser: true,

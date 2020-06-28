@@ -78,20 +78,25 @@ async function findRooms(req) {
     result = await getNoBookings(allRoomTypes, guests)
 
 
-    //If all rooms has booking
+    //If all rooms has booking or less than number of room types
     //find all rooms that doesn't clash with booked dates
-    if (!result.length) {
+    if (!result.length || result.length < allRoomTypes.length) {
         result = await getRoomsWithBookings(allRoomTypes, req)
         return result
     }
-    
     return result
 }
 
+//async forEach function
 async function asyncForEach(array, callback) {
     for (let index = 0; index < array.length; index++) {
       await callback(array[index], index, array);
     }
+}
+
+//async sleep function
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function getNoBookings(allRoomTypes, guests) {
@@ -149,13 +154,11 @@ async function getRoomsWithBookings(allRoomTypes, req) {
             ]
         }).populate({path: 'roomType', model: 'RoomType'}).exec()
 
-        
-
         if (room) {
             typeArr.push(room)
         }
 
-        return typeArr
-
     })
+
+    return typeArr
 }

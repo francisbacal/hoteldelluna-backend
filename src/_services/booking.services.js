@@ -26,7 +26,7 @@ async function getAll(req) {
         const bookings = await Booking.find().populate({path: 'roomType', model: 'RoomType'}).exec()
         return bookings
     } else {
-        const bookings = await Booking.find({customerEmail: req.user.email})
+        const bookings = await Booking.find({"customer.email": req.user.email})
         return bookings
     }
 }
@@ -38,9 +38,20 @@ async function getOne(req) {
     } else {
         const booking = await Booking.findOne({
             '_id': req.params.id, 
-            customerEmail: req.user.email
+            'customer.email': req.user.email
         })
         return booking;
+    }
+}
+
+async function updateStatus(req, next) {
+    let data = {};
+    data.hasEnded = req.body.hasEnded;
+    data.isCancelled = req.body.isCancelled;
+
+    if (req.user.role === 'Admin') {
+        let booking = await Booking.findByIdAndUpdate(req.params.id, data, {new: true})
+        return booking
     }
 }
 
@@ -48,11 +59,11 @@ async function update(req, next) {
     let total = await getTotal(req)
     req.body.total = total
 
-    if (req.user.role === 'Admin') {
+    // if (req.user.role === 'Admin') {
         let booking = await Booking.findByIdAndUpdate(req.params.id, req.body, {new: true})
         await bookRoom(booking, next)
         return booking
-    }
+    // }
 
 }
 

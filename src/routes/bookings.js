@@ -22,8 +22,7 @@ const Joii = Joi.extend(JoiDate)
 router.post('/',addSchema, payStripe, add);
 router.get('/', authorize([Role.Admin, Role.User]), getAll);
 router.get('/:id', authorize([Role.Admin, Role.User]), getOne);
-router.put('/:id', authorize([Role.Admin, Role.User]), updateSchema, removeRoomBooking, update);
-// router.post('/stripe', payStripe)
+router.put('/:id', authorize([Role.Admin, Role.User]), updateStatusSchema, updateStatus, updateSchema, removeRoomBooking, update);
 
 
 
@@ -88,6 +87,25 @@ function getOne(req, res, next) {
         .catch(next)
 }
 
+function updateStatusSchema(req, res, next) {
+    const schema = Joi.object().keys({
+        isCancelled: Joi.boolean(),
+        hasEnded: Joi.boolean()
+    })
+
+    validateRequest(req, next, schema)
+}
+
+function updateStatus(req, res, next) {
+    if (req.user.role === 'Admin') {
+        bookingService.update(req, next)
+            .then(booking => res.json(booking))
+            .catch(next)
+    } else {
+        next();
+    }
+}
+
 function updateSchema(req, res, next){
 
     const schema = Joi.object().keys({
@@ -102,6 +120,7 @@ function updateSchema(req, res, next){
             start: Joii.date().min('now').max(Joi.ref('end')).required(),
             end: Joii.date().min('now').required()
         },
+        isCancelled: Joi.boolean(),
         hasEnded: Joi.boolean()
     })
 
